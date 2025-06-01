@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pole Optimizer App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>GPX Pole Optimizer</h1>
+    <div class="upload-box">
+        <input type="file" id="file" accept=".csv" />
+        <button onclick="uploadFile()">Upload & Optimize</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById("file");
+            const status = document.getElementById("status");
+
+            if (fileInput.files.length === 0) {
+                status.innerHTML = "<span style='color: red;'>❌ No file selected</span>";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            status.innerHTML = "⏳ Uploading & Processing...";
+
+            try {
+                const res = await fetch("http://127.0.0.1:5000/upload", { 
+                    method: "POST", 
+                    body: formData
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Server error: ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                if (data.status === "success") {
+                    status.innerHTML = `<span style="color: green;">✅ ${data.message}</span><br>
+                        <a href="${data.download_url}" class="download-link">⬇️ Download Optimized File</a>`;
+                } else {
+                    status.innerHTML = `<span style="color: red;">❌ ${data.message}</span>`;
+                }
+            } catch (error) {
+                console.error("Upload failed:", error);
+                status.innerHTML = `<span style="color: red;">❌ Error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

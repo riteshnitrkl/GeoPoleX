@@ -1,0 +1,31 @@
+body {
+    background-color: #f0f4f8;
+    font-family: "Segoe UI", sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.upload-box {
+    border: 2px dashed #aaa;
+    padding: 2rem;
+    border-radius: 10px;
+    background: white;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.download-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#status {
+    margin-top: 1rem;
+    font-weight: bold;
+}
